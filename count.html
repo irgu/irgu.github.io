@@ -50,7 +50,7 @@
     // chart title
     var chart_title = 'Particulate matter';
     // y axis title
-    var y_axis_title = 'ug/m3';
+    var y_axis_title = 'counts in 0.1liter';
 
     // user's timezone offset
     var my_offset = new Date().getTimezoneOffset();
@@ -154,24 +154,7 @@
           tickPosition: 'outside',
           showLastLabel: 'true',
           min: 0,
-          gridLineDashStyle: 'Dot',
-          plotLines: [{
-            value: 50,
-            color: '#00aaff',
-            dashStyle: 'shortdash',
-            width: 2,
-            label: {
-              text: 'PM10 limit'
-            }
-          }, {
-            value: 25,
-            color: '#d62020',
-            dashStyle: 'shortdash',
-            width: 2,
-            label: {
-              text: 'PM2.5 limit'
-            }
-          }]
+          gridLineDashStyle: 'Dot'
         },
         exporting: { enabled: false },
         legend: { enabled: true },

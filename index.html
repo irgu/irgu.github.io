@@ -40,8 +40,8 @@
     $(document).on('ready', function() {
       // add a blank chart
       addChart();
-      addSeries(series_2_channel_id, series_2_field_number, series_2_read_api_key, series_2_days, series_2_color);
       addSeries(series_1_channel_id, series_1_field_number, series_1_read_api_key, series_1_days, series_1_color);
+      addSeries(series_2_channel_id, series_2_field_number, series_2_read_api_key, series_2_days, series_2_color);
     });
 
     // add the base chart
@@ -195,7 +195,7 @@
       });
 
       // add the chart data
-      my_chart.addSeries({ data: chart_data, name: data.channel[field_name], color: color });
+      my_chart.addSeries({ data: chart_data, name: data.channel[field_name], color: color, zIndex: field_number });
     });
   }
 

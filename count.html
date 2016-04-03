@@ -212,7 +212,7 @@
       });
 
       // add the chart data
-      my_chart.addSeries({ data: chart_data, name: data.channel[field_name], color: color });
+      my_chart.addSeries({ data: chart_data, name: data.channel[field_name], color: color, zIndex: field_number });
     });
   }
 

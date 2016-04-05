@@ -74,7 +74,7 @@
         </div>
 
         <script>function onFormSubmit() {
-            'use strict';
+           'use strict';
 
             var serviceUuid = document.getElementById('service').value;
             var i;
@@ -83,28 +83,19 @@
                 serviceUuid = parseInt(serviceUuid, 16);
             }
 
-             log("Service chosen!");
+            log("Service chosen!");
             
             navigator.bluetooth.requestDevice({
                 filters: [{services: [serviceUuid]}]
-            }).then(device => {
-                    for(;;){
-                        var rssi = device.adData.rssi;
-                        log(device.adData.rssi);
-                        var appleData = device.adData.manufacturerData.get(0x004C);
-                        if (appleData.byteLength != 23 || appleData.getUint16(0, false) !== 0x0215) {
-                            log("Not ibeacon!");
-                        } else {
-                            var uuidArray = new Uint8Array(appleData.buffer, 2, 16);
-                            log(uuidArray);
-                            var major = appleData.getUint16(18, false);
-                            log(major);
-                            var minor = appleData.getUint16(20, false);
-                            log(minor);
-                            var txPowerAt1m = -appleData.getInt8(22);
-                            log(txPowerAt1m);
-                        }
-                   }
+            }).then(device => device.connectGATT())
+              .then(server => server.getPrimaryService('6c372000-d2cc-11e4-9a1f-00022a5d5c51b'))
+              .then(service => service.getCharacteristics())
+              .then(characteristics => {
+                log('> Characteristics: ' +
+                characteristics.map(c => c.uuid).join('\n' + ' '.repeat(19)));
+              })
+              .catch(error => {
+               log('Argh! ' + error);
             });
         };
         </script>

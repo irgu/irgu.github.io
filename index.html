@@ -224,11 +224,11 @@
       // add the chart data
       if((field_number == 1) || (field_number == 2))
       {
-        my_chart.addSeries({ type: 'areaspline', data: chart_data, name: data.channel[field_name], color: color, zIndex: (4 - field_number), legendIndex: (4 - field_number) });
+        my_chart.addSeries({ type: 'areaspline', data: chart_data, name: data.channel[field_name], color: color, zIndex: (5 - field_number), legendIndex: (5 - field_number) });
       }
       else
       {
-        my_chart.addSeries({ type: 'spline', data: chart_data, name: data.channel[field_name], color: color, zIndex: field_number, legendIndex: (4 - field_number) });
+        my_chart.addSeries({ type: 'spline', data: chart_data, name: data.channel[field_name], color: color, zIndex: field_number, legendIndex: (5 - field_number) });
       }
     });
   }

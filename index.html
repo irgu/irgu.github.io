@@ -28,17 +28,24 @@
     
     // variables for the second series
     var series_3_channel_id = 89702;
-    var series_3_field_number = 7;
+    var series_3_field_number = 6;
     var series_3_read_api_key = 'JK9TGQ5BVODEBSS2';
     var series_3_days = 3;
     var series_3_color = '#00ff00';
     
     // variables for the second series
     var series_4_channel_id = 89702;
-    var series_4_field_number = 8;
+    var series_4_field_number = 7;
     var series_4_read_api_key = 'JK9TGQ5BVODEBSS2';
     var series_4_days = 3;
     var series_4_color = '#000000';
+    
+    // variables for the second series
+    var series_5_channel_id = 89702;
+    var series_5_field_number = 8;
+    var series_5_read_api_key = 'JK9TGQ5BVODEBSS2';
+    var series_5_days = 3;
+    var series_5_color = '#000000';
 
     // chart title
     var chart_title = 'Particulate matter';
@@ -58,7 +65,7 @@
       addSeries(series_2_channel_id, series_2_field_number, series_2_read_api_key, series_2_days, series_2_color);
       addSeries(series_3_channel_id, series_3_field_number, series_3_read_api_key, series_3_days, series_3_color);
       addSeries(series_4_channel_id, series_4_field_number, series_4_read_api_key, series_4_days, series_4_color);
-      
+      addSeries(series_5_channel_id, series_5_field_number, series_5_read_api_key, series_5_days, series_5_color);
     });
 
     // add the base chart
@@ -196,7 +203,7 @@
     var field_name = 'field' + field_number;
 
     // get the data with a webservice call
-    $.getJSON('https://api.thingspeak.com/channels/' + channel_id + '/fields/' + field_number + '.json?offset=0&round=2&average=15&max=500&days=' + days + '&api_key=' + api_key, function(data) {
+    $.getJSON('https://api.thingspeak.com/channels/' + channel_id + '/fields/' + field_number + '.json?offset=0&round=2&average=15&max=1100&days=' + days + '&api_key=' + api_key, function(data) {
 
       // blank array for holding chart data
       var chart_data = [];

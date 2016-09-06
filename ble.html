@@ -8,7 +8,7 @@
 
             <script>
                   function onButtonClick() {
-                        log('Requesting Bluetooth Device...');
+                        console.log('Requesting Bluetooth Device...');
                         navigator.bluetooth.requestDevice(
                           {filters: [{services: ['battery_service']}]})
                         .then(device => {

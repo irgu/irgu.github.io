@@ -1,61 +1,61 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-      <!-- Origin Trial Token, feature = Web Bluetooth, origin = https://irgu.github.io, expires = 2016-10-18 -->
-      <meta http-equiv="origin-trial" data-feature="Web Bluetooth" data-expires="2016-10-18" content="AlSfk53IdtY4ZBO8D9U7CXDRobyrmsZw6KZ8dVHcchogXG7Kk/LdL2mOt48IDkP99l6EYnF3sodKSVg1xiJbuwcAAABZeyJvcmlnaW4iOiAiaHR0cHM6Ly9pcmd1LmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJCbHVldG9vdGgiLCAiZXhwaXJ5IjogMTQ3NjgxMjE2Mn0=">
-    </head>
+  <head>
+    <!-- Origin Trial Token, feature = Web Bluetooth, origin = https://irgu.github.io, expires = 2016-10-18 -->
+    <meta http-equiv="origin-trial" data-feature="Web Bluetooth" data-expires="2016-10-18" content="AlSfk53IdtY4ZBO8D9U7CXDRobyrmsZw6KZ8dVHcchogXG7Kk/LdL2mOt48IDkP99l6EYnF3sodKSVg1xiJbuwcAAABZeyJvcmlnaW4iOiAiaHR0cHM6Ly9pcmd1LmdpdGh1Yi5pbzo0NDMiLCAiZmVhdHVyZSI6ICJXZWJCbHVldG9vdGgiLCAiZXhwaXJ5IjogMTQ3NjgxMjE2Mn0=">
+  </head>
 
-    <body>
-        <button>Get Beacons Temperature</button>
+  <body>
+    <button>Get Beacons Temperature</button>
 
-        <script>
-            var txCharacteristic;
-            var rxCharacteristic;
+    <script>
+      var txCharacteristic;
+      var rxCharacteristic;
 
-            function handleNotifications(event) {
-              let value = event.target.value;
-              alert((value.getInt16(5)/256.0).toPrecision(4));
-            }
+      function handleNotifications(event) {
+        let value = event.target.value;
+        alert((value.getInt16(5)/256.0).toPrecision(4));
+      }
 
-            function onButtonClick() {
-                console.log('Requesting Bluetooth Device...');
-                navigator.bluetooth.requestDevice(
-                  {filters: [{services: [0xFE9A]}],
-                   optionalServices: ["6c371000-d2cc-11e4-9a1f-0002a5d5c51b"]})
-                .then(device => {
-                  console.log('Connecting to GATT Server...');
-                  return device.gatt.connect();
-                })
-                .then(server => {
-                  console.log('Getting Estimote Configuration Service...');
-                  return server.getPrimaryService("6c371000-d2cc-11e4-9a1f-0002a5d5c51b");
-                })
-                .then(service => {
-                  console.log('Getting TX/RX Characteristics...');
-                  return service.getCharacteristics();
-                })
-                .then(characteristics => {
-                  txCharacteristic = characteristics[0];
-                  rxCharacteristic = characteristics[1];
-                  return rxCharacteristic.startNotifications().then(_ => {
-                                                                            console.log('Notifications started :)');
-                                                                            rxCharacteristic.addEventListener('characteristicvaluechanged',
-                                                                                                              handleNotifications);
-                                                                         });
-                })
-                .then(_ => {
-                  txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
-                })
-                .catch(error => {
-                  console.log('Argh! ' + error);
-                });
-            }
-        </script>
+      function onButtonClick() {
+        console.log('Requesting Bluetooth Device...');
+        navigator.bluetooth.requestDevice({filters: [{services: [0xFE9A]}],
+                                          optionalServices: ["6c371000-d2cc-11e4-9a1f-0002a5d5c51b"]})
+        .then(device => {
+          console.log('Connecting to GATT Server...');
+          return device.gatt.connect();
+        })
+        .then(server => {
+          console.log('Getting Estimote Configuration Service...');
+          return server.getPrimaryService("6c371000-d2cc-11e4-9a1f-0002a5d5c51b");
+        })
+        .then(service => {
+          console.log('Getting TX/RX Characteristics...');
+          return service.getCharacteristics();
+        })
+        .then(characteristics => {
+          txCharacteristic = characteristics[0];
+          rxCharacteristic = characteristics[1];
+          return rxCharacteristic.startNotifications().then(_ => {
+                                                        console.log('Notifications started :)');
+                                                        rxCharacteristic.addEventListener('characteristicvaluechanged',
+                                                                                          handleNotifications);
+                                                      });
+        })
+        .then(_ => {
+          txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
+        })
+        .catch(error => {
+          console.log('Argh! ' + error);
+        });
+        console.log('Waiting for all asynchronous staff...');
+      }
+    </script>
 
-        <script>
-            document.querySelector('button').addEventListener('click', onButtonClick);
-        </script>
-    </body>
+    <script>
+      document.querySelector('button').addEventListener('click', onButtonClick);
+    </script>
+  </body>
 
 </html>

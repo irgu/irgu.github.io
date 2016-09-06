@@ -1,3 +1,5 @@
+<button>Get Bluetooth Device's Battery Level</button>
+
 <script>function onButtonClick() {
   log('Requesting Bluetooth Device...');
   navigator.bluetooth.requestDevice(
@@ -26,4 +28,14 @@
     log('Argh! ' + error);
   });
 }
+</script>
+
+
+<script>
+  document.querySelector('button').addEventListener('click', function() {
+    if (isWebBluetoothEnabled()) {
+      ChromeSamples.clearLog();
+      onButtonClick();
+    }
+  });
 </script>

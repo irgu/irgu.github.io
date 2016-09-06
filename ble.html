@@ -10,12 +10,14 @@
     <button>Get Beacons Temperature</button>
 
     <script>
-      var txCharacteristic;
-      var rxCharacteristic;
+      let txCharacteristic;
+      let rxCharacteristic;
 
       function handleNotifications(event) {
         let value = event.target.value;
-        alert((value.getInt16(5)/256.0).toPrecision(4));
+        if(value.getUint8(1) === 0x86){
+          document.querySelector('button').innerHTML = (value.getInt16(5)/256.0).toPrecision(4).toString() + "&degC";
+        }
       }
 
       function onButtonClick() {
@@ -37,14 +39,15 @@
         .then(characteristics => {
           txCharacteristic = characteristics[0];
           rxCharacteristic = characteristics[1];
-          return rxCharacteristic.startNotifications().then(_ => {
-                                                        console.log('Notifications started :)');
-                                                        rxCharacteristic.addEventListener('characteristicvaluechanged',
-                                                                                          handleNotifications);
-                                                      });
+          return rxCharacteristic.startNotifications();
         })
-        .then(_ => {
-          txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
+        .then(() => {
+          console.log('Notifications started :)');
+          rxCharacteristic.addEventListener('characteristicvaluechanged',
+                                            handleNotifications);
+        })
+        .then(() => {
+          return txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
         })
         .catch(error => {
           console.log('Argh! ' + error);

@@ -45,9 +45,10 @@
           console.log('Notifications started :)');
           rxCharacteristic.addEventListener('characteristicvaluechanged',
                                             handleNotifications);
+          return txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
         })
         .then(() => {
-          return txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
+          console.log("Temperature value is ready :)");
         })
         .catch(error => {
           console.log('Argh! ' + error);

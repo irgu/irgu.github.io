@@ -7,9 +7,10 @@
   </head>
 
   <body>
-    <button id = "connect" onclick = "onButtonClick()">Connect :)</button>
-    <button id = "gettemp">Get temperature :)</button>
+    <button id = "connect" onclick = "connectToBeacon()">Connect to beacon</button>
+    <button id = "gettemp" onclick = "getBeaconsTemperature()">Get beacons temperature</button>
     
+    <p id = "temperature"></p>
 
     <script>
       let txCharacteristic;
@@ -18,11 +19,11 @@
       function handleNotifications(event) {
         let value = event.target.value;
         if(value.getUint8(1) === 0x86){
-          document.querySelector('button').innerHTML = (value.getInt16(5)/256.0).toPrecision(4).toString() + "&degC";
+          document.getElementById("temperature").innerHTML = (value.getInt16(5)/256.0).toPrecision(4).toString() + "&degC";
         }
       }
 
-      function onButtonClick() {
+      function connectToBeacon() {
         console.log('Requesting Bluetooth Device...');
         navigator.bluetooth.requestDevice({filters: [{services: [0xFE9A]}],
                                           optionalServices: ["6c371000-d2cc-11e4-9a1f-0002a5d5c51b"]})
@@ -47,20 +48,25 @@
           console.log('Notifications started :)');
           rxCharacteristic.addEventListener('characteristicvaluechanged',
                                             handleNotifications);
-          return txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]));
         })
         .then(() => {
-          console.log("Temperature value is ready :)");
+          console.log("Now you can check value :)");
         })
         .catch(error => {
           console.log('Argh! ' + error);
         });
         console.log('Waiting for all asynchronous staff...');
       }
-    </script>
-
-    <script>
-      //document.querySelector('button').addEventListener('click', onButtonClick);
+      
+      function getBeaconsTemperature() {
+        txCharacteristic.writeValue(new Uint8Array([0x00,0x86,0x00,0x00]))
+        .then(() => {
+          console.log("Requst done!");
+        })
+        .catch(error => {
+          console.log("Argh! " + error);
+        });
+      }
     </script>
   </body>
 

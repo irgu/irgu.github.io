@@ -8,7 +8,6 @@
 
   <body>
     <button id = "conndiss"></button>
-    <button id = "gettemp">Get beacons temperature</button>
     
     <p id = "temperature"></p>
 
@@ -23,7 +22,7 @@
       function handleNotifications(event) {
         let value = event.target.value;
         if(value.getUint8(1) === 0x86){
-          document.getElementById("temperature").innerHTML = (value.getInt16(5)/256.0).toPrecision(4).toString() + "&degC";
+          document.getElementById("temperature").innerHTML = "Temperature: " + (value.getInt16(5)/256.0).toPrecision(4).toString() + "&degC";
         }
       }
       
@@ -74,9 +73,7 @@
                                             handleNotifications);
         })
         .then(() => {
-          //document.getElementById("gettemp").onclick = getBeaconsTemperature;
           setInterval(getBeaconsTemperature, 2000);
-          //console.log("Now you can check value :)");
         })
         .catch(error => {
           console.log('Argh! ' + error);

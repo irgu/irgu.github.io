@@ -75,7 +75,7 @@
         })
         .then(() => {
           //document.getElementById("gettemp").onclick = getBeaconsTemperature;
-          setTimeout(getBeaconsTemperature(), 2000);
+          setInterval(getBeaconsTemperature, 2000);
           //console.log("Now you can check value :)");
         })
         .catch(error => {

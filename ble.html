@@ -71,6 +71,7 @@
           console.log('Notifications started :)');
           rxCharacteristic.addEventListener('characteristicvaluechanged',
                                             handleNotifications);
+          getBeaconsTemperature();
           setInterval(getBeaconsTemperature, 2000);
         })
         .catch(error => {

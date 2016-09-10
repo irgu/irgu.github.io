@@ -49,7 +49,7 @@
                                           optionalServices: ["6c371000-d2cc-11e4-9a1f-0002a5d5c51b"]})
         .then(device => {
           estiBeacon = device;
-          bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
+          estiBeacon.addEventListener('gattserverdisconnected', onDisconnected);
           console.log('Connecting to GATT Server...');
           return device.gatt.connect();
         })

@@ -32,11 +32,9 @@
           return;
         }
         if (estiBeacon.gatt.connected) {
-          estiBeacon.gatt.disconnect()
-          .then(() => {
-            document.getElementById("conndiss").innerHTML = "Connect!";
-            document.getElementById("conndiss").onclick = beaconConnect;
-          });
+          estiBeacon.gatt.disconnect();
+          document.getElementById("conndiss").innerHTML = "Connect!";
+          document.getElementById("conndiss").onclick = beaconConnect;
         } else {
           //Do nothing.
         }
@@ -48,12 +46,12 @@
                                           optionalServices: ["6c371000-d2cc-11e4-9a1f-0002a5d5c51b"]})
         .then(device => {
           estiBeacon = device;
-          document.getElementById("conndiss").innerHTML = "Disconnect!";
-          document.getElementById("conndiss").onclick = beaconDisconnect;
           console.log('Connecting to GATT Server...');
           return device.gatt.connect();
         })
         .then(server => {
+          document.getElementById("conndiss").innerHTML = "Disconnect!";
+          document.getElementById("conndiss").onclick = beaconDisconnect;
           console.log('Getting Estimote Configuration Service...');
           return server.getPrimaryService("6c371000-d2cc-11e4-9a1f-0002a5d5c51b");
         })
